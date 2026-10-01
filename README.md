@@ -1,390 +1,258 @@
-GitHub Insights Analytics
+# GitHub Insights Analytics
 
-A Python and Power BI project that collects GitHub profile, repository,
-traffic, and programming-language data through the GitHub REST API and
-converts it into structured datasets for analysis.
+A Python and Power BI project that connects to the GitHub REST API, collects GitHub profile, repository, traffic, and language data, and turns it into structured datasets for analysis.
 
-Project Overview
+The project automates the process of collecting GitHub data, preparing it with Pandas, storing it in SQLite and CSV files, and analysing it through Power BI.
 
-GitHub provides useful information about repositories, profile activity,
-and repository traffic, but the information is spread across different
-areas.
+---
 
-I built this project to bring that information together into a single
-data workflow.
+## Workflow
 
-The project collects GitHub data using Python, prepares it with Pandas,
-stores it in SQLite, exports it into CSV files, and uses the resulting
-data to build a Power BI analytics report.
+```text
+GitHub API
+     ↓
+Python (Requests)
+     ↓
+Pandas
+     ↓
+Data Cleaning
+     ↓
+SQLite / CSV
+     ↓
+Power BI
+```
 
-Workflow
+---
 
-GitHub API → Python → Pandas → Data Cleaning → SQLite / CSV → Power
-BI
+## Tech Stack
 
-GitHub Personal Access Token
+- **Python:** Pandas, Requests
+- **API:** GitHub REST API
+- **Database:** SQLite
+- **Querying:** SQL
+- **Visualization:** Power BI
 
-This project requires a GitHub Personal Access Token (Fine-grained
-PAT) to access GitHub API data.
+---
 
-How to create a GitHub Token
+## Project Outputs
 
-Sign in to GitHub.
+Running the Jupyter Notebook generates the following files:
 
-Go to Settings.
+| File | Description |
+|---|---|
+| `df_user.csv` | GitHub profile-level information such as followers, following, and public repositories |
+| `df_repositories.csv` | Repository-level information and metadata |
+| `df_traffic.csv` | Repository traffic including views, unique visitors, clones, and unique cloners |
+| `df_languages.csv` | Programming languages and byte usage across repositories |
+| `github_analytics.db` | SQLite database containing `user`, `repositories`, `traffic`, and `languages` tables |
 
-Open Developer settings.
+---
 
-Select Personal access tokens → Fine-grained tokens.
+## Getting Started
 
-Click Generate new token.
+### 1. Clone the Repository
 
-Enter a token name and expiration date.
+```bash
+git clone https://github.com/satyamsatyam1215-cmd/github-insights-analytics.git
+cd github-insights-analytics
+```
 
-Select your GitHub account as the resource owner.
+### 2. Install Required Libraries
 
-Select the repositories you want to analyse.
-
-Give the token the required read-only repository permissions.
-
-Generate the token.
-
-Copy the token and keep it private.
-
-For repository traffic data, the GitHub API requires the appropriate
-repository access. Use the minimum permissions required for your account
-and repositories.
-
-GitHub Documentation
-
-Creating a fine-grained personal access
-token
-
-GitHub REST API
-Authentication
-
-Repository traffic
-API
-
-Add the Token
-
-Open Pyhton Code.ipynb and update the first cell:
-
-GITHUB_USERNAME = "your-github-username"
-GITHUB_TOKEN = "your-github-token"
-
-Example:
-
-GITHUB_USERNAME = "satyamsatyam1215-cmd"
-GITHUB_TOKEN = "YOUR_TOKEN_HERE"
-
-Security: Never upload your real GitHub token to GitHub. If a
-token is accidentally exposed, revoke it immediately and generate a
-new one.
-
-How to Use
-
-1. Clone or download the repository
-
-Download the project to your local machine.
-
-2. Install the required Python libraries
-
+```bash
 pip install requests pandas
+```
 
-3. Open the notebook
+### 3. Create a GitHub Personal Access Token
+
+This project uses a GitHub Personal Access Token to access GitHub API data.
+
+To create one:
+
+1. Open GitHub.
+2. Go to **Settings**.
+3. Open **Developer settings**.
+4. Go to **Personal access tokens → Fine-grained tokens**.
+5. Click **Generate new token**.
+6. Select your GitHub account as the resource owner.
+7. Select the repositories you want to analyse.
+8. Provide the required read permissions.
+9. Generate the token and copy it.
+
+### 4. Configure the Notebook
 
 Open:
 
+```text
 Pyhton Code.ipynb
+```
 
-4. Add your GitHub username and token
+Update the first cell:
 
-Update the first cell with your own GitHub username and Personal Access
-Token.
+```python
+GITHUB_USERNAME = "your-github-username"
+GITHUB_TOKEN = "YOUR_TOKEN_HERE"
+```
 
-5. Run the notebook
+For example:
+
+```python
+GITHUB_USERNAME = "satyamsatyam1215-cmd"
+GITHUB_TOKEN = "YOUR_TOKEN_HERE"
+```
+
+> **Important:** Never upload your actual GitHub token to a public repository. Keep it private and use a new token if an existing one is exposed.
+
+### 5. Run the Notebook
 
 Run the notebook cells from top to bottom.
 
-The notebook will collect the GitHub data and generate the following
-datasets:
+The notebook will:
 
-df_user.csv
-df_repositories.csv
-df_traffic.csv
-df_languages.csv
+1. Connect to the GitHub REST API.
+2. Collect profile information.
+3. Collect repository information.
+4. Collect repository traffic.
+5. Collect programming-language information.
+6. Create Pandas DataFrames.
+7. Clean unnecessary fields.
+8. Store the data in SQLite.
+9. Export the final datasets as CSV files.
 
-It also creates:
+---
 
-github_analytics.db
+## Data Collected
 
-Data Files
+### User Data
 
-df_user.csv
+The `df_user.csv` file contains profile-level information used to understand the GitHub account.
 
-Contains GitHub profile-level information.
+### Repository Data
 
-The dataset is used for analysing information such as:
+The `df_repositories.csv` file contains information about the repositories owned by the account.
 
-GitHub username
+### Traffic Data
 
-Profile information
+The `df_traffic.csv` file contains repository traffic data such as:
 
-Followers
+- Views
+- Unique visitors
+- Clones
+- Unique cloners
+- Date
+- Repository name
 
-Following
+### Language Data
 
-Public repositories
+The `df_languages.csv` file contains:
 
-Account-related statistics
+- Repository name
+- Programming language
+- Byte usage
 
-df_repositories.csv
+This can be used to understand the programming languages used across the repositories.
 
-Contains repository-level information collected from the GitHub API.
+---
 
-It includes information such as:
+## What the Python Code Does
 
-Repository name
+The notebook uses the GitHub REST API to collect the required data.
 
-Repository ID
+The collected API responses are converted into four Pandas DataFrames:
 
-Description
-
-Visibility
-
-Creation date
-
-Last update
-
-Default branch
-
-Primary language
-
-Stars
-
-Watchers
-
-Repository size
-
-Repository metadata
-
-df_traffic.csv
-
-Contains repository traffic data collected from GitHub.
-
-Main fields include:
-
-Repository ID
-
-Repository name
-
-Date
-
-Views
-
-Unique visitors
-
-Clones
-
-Unique cloners
-
-This dataset is used to analyse repository traffic and visitor activity.
-
-df_languages.csv
-
-Contains programming-language information for repositories.
-
-Main fields include:
-
-Repository ID
-
-Repository name
-
-Language
-
-Bytes
-
-This dataset helps analyse the programming languages used across the
-repositories.
-
-SQLite Database
-
-The notebook also stores the collected data in:
-
-github_analytics.db
-
-The database contains four tables:
-
-user
-repositories
-traffic
-languages
-
-This provides a structured database version of the collected GitHub
-data.
-
-What the Python Code Does
-
-The notebook performs the complete data collection and preparation
-process.
-
-1. Connects to GitHub
-
-Python's requests library is used to connect to the GitHub REST API
-using the username and token.
-
-2. Collects Profile Data
-
-The GitHub user API is used to collect profile-level information.
-
-3. Collects Repository Data
-
-The project retrieves the repositories owned by the GitHub account.
-
-4. Collects Repository Traffic
-
-For each repository, the code retrieves:
-
-Views
-
-Unique visitors
-
-Clones
-
-Unique cloners
-
-Traffic date
-
-5. Collects Programming Languages
-
-For each repository, the GitHub languages endpoint is used to collect
-language and byte information.
-
-6. Creates Pandas DataFrames
-
-The collected information is converted into:
-
+```python
 df_user
 df_repositories
 df_traffic
 df_languages
+```
 
-7. Cleans the Data
+The data is then cleaned by removing unnecessary API fields.
 
-Unnecessary API fields and URL-related fields are removed from the
-profile and repository datasets to make the data easier to analyse.
+The cleaned DataFrames are stored in a local SQLite database:
 
-8. Stores the Data
+```text
+github_analytics.db
+```
 
-The cleaned DataFrames are stored in SQLite and exported as CSV files.
+The database contains:
 
-Power BI Report
+```text
+user
+repositories
+traffic
+languages
+```
 
-The collected datasets are used to create a Power BI dashboard for
-GitHub analytics.
+The same DataFrames are also exported as CSV files for further analysis.
+
+---
+
+## Power BI Report
+
+The collected data is used to create a Power BI dashboard for analysing GitHub activity.
 
 The report provides an overview of:
 
-GitHub Profile
+### Profile Overview
 
-GitHub ID
+- GitHub ID
+- Followers
+- Following
+- Public repositories
+- Account age
+- Repositories per year
 
-Followers
+### Traffic Overview
 
-Following
+- Total views
+- Total clones
+- Unique visitors
+- Unique cloners
+- Average daily views
+- Peak daily views
+- Active traffic days
+- Repositories with traffic
 
-Public repositories
+### Traffic Trend
 
-Account age
+The report shows GitHub views and clones over time.
 
-Repositories per year
-
-Traffic Overview
-
-Total views
-
-Total clones
-
-Unique visitors
-
-Unique cloners
-
-Average daily views
-
-Peak daily views
-
-Active traffic days
-
-Repositories with traffic
-
-GitHub Traffic Trend
-
-The dashboard shows views and clones over time to understand changes in
-repository traffic.
-
-Repository Performance
+### Repository Performance
 
 Repositories can be compared using:
 
-Views
+- Views
+- Visitors
+- Clones
+- Interactions
+- Activity
 
-Visitors
+### Top Repositories
 
-Clones
+The dashboard identifies repositories receiving the highest number of views and allows repository performance to be compared.
 
-Interactions
+---
 
-Activity
+## Why I Built This
 
-Top Repositories
+I built this project because I wanted to understand my GitHub account through data.
 
-The report identifies repositories receiving the highest number of views
-and provides a comparison of repository performance.
+GitHub provides useful information about repositories, traffic, and profile activity, but I wanted to bring that information together instead of checking different sections manually.
 
-Why I Built This Project
+The project helps me analyse questions such as:
 
-I built this project because I wanted to understand my GitHub account
-through data.
+- Which repositories receive the most views?
+- Which repositories get more traffic?
+- How many visitors and clones do my repositories receive?
+- How does repository traffic change over time?
+- Which programming languages are used across my repositories?
+- What does my GitHub activity look like from a data perspective?
 
-Instead of manually checking different GitHub pages for repository
-information and traffic, I wanted to collect the information into
-structured datasets and analyse it in one place.
+The main idea was simple: **turn my GitHub activity into a data analytics project.**
 
-The project helps answer questions such as:
+The final workflow is:
 
-Which repositories receive the most views?
-
-How many visitors are coming to my repositories?
-
-Which repositories are being cloned?
-
-How does repository traffic change over time?
-
-Which repositories have more activity?
-
-Which programming languages are used across my repositories?
-
-What does my overall GitHub profile look like from a data
-perspective?
-
-The main purpose of the project was to turn my GitHub activity into a
-data analytics problem and build an end-to-end workflow using:
-
-GitHub API → Python → Data Preparation → SQLite / CSV → Power BI
-
-Tools & Technologies
-
-Python
-
-Pandas
-
-Requests
-
-GitHub REST API
-
-SQLite
-
-SQL
-
-Power BI
+```text
+GitHub API → Python → Data Cleaning → SQLite / CSV → Power BI
+```
